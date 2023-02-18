@@ -3,13 +3,17 @@ package com.demo.line.service.impl;
 import com.demo.line.config.properties.LineProperties;
 import com.demo.line.entity.Message;
 import com.demo.line.model.PushMessageReqModel;
+import com.demo.line.model.UserMessageResModel;
 import com.demo.line.repository.MessageRepository;
 import com.demo.line.service.LineMessageService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.event.message.MessageContent;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.response.BotApiResponse;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +61,16 @@ public class LineMessageServiceImpl implements LineMessageService {
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public UserMessageResModel getUserMessages(String userId) {
+    List<Message> messages = messageRepository.findByUserId(userId);
+    List<MessageContent> messageContents = new ArrayList<>();
+    messages.forEach(message -> messageContents.add(message.getMessage()));
+    return UserMessageResModel.builder()
+        .messages(messageContents)
+        .build();
   }
 
 }
