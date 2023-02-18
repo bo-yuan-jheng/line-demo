@@ -2,10 +2,15 @@ package com.demo.line.service.impl;
 
 import com.demo.line.config.properties.LineProperties;
 import com.demo.line.entity.Message;
+import com.demo.line.model.PushMessageReqModel;
 import com.demo.line.repository.MessageRepository;
 import com.demo.line.service.LineMessageService;
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.event.message.MessageContent;
+import com.linecorp.bot.model.message.TextMessage;
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -34,6 +39,24 @@ public class LineMessageServiceImpl implements LineMessageService {
             .message(messageContent)
             .build()
     );
+  }
+
+  @Override
+  public void pushMessage(PushMessageReqModel pushMessageReqModel) {
+    final LineMessagingClient client = LineMessagingClient
+        .builder(lineProperties.getChannelToken())
+        .build();
+
+    final TextMessage textMessage = new TextMessage(pushMessageReqModel.getText());
+    final PushMessage pushMessage = new PushMessage(
+        pushMessageReqModel.getUserId(),
+        textMessage);
+
+    try {
+      client.pushMessage(pushMessage).get();
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    }
   }
 
 }

@@ -1,5 +1,6 @@
 package com.demo.line.service;
 
+import com.demo.line.model.PushMessageReqModel;
 import com.linecorp.bot.model.event.message.MessageContent;
 
 /**
@@ -9,5 +10,7 @@ import com.linecorp.bot.model.event.message.MessageContent;
 public interface LineMessageService {
 
   void saveUserMessage(String userId, MessageContent messageContent);
+
+  void pushMessage(PushMessageReqModel pushMessageReqModel);
 
 }
