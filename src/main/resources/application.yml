@@ -2,3 +2,16 @@ server:
   port: 8080
   servlet:
     context-path: /lineDemo
+
+spring:
+  data:
+    mongodb:
+      username: user
+      password: SVqK8mpu
+      host: localhost
+      port: 27017
+      database: line
+
+line.bot:
+  channel-token: aUsTkhf+AlsQbXAIfv7UnVQT19ZV9hEmNWGnk6Yi8SZCVpwYHK7M0dkUSEKxXHBenNBWNzRRyuIfTRjfyqehDbyxRLPhpkDdHH0WWUJPt85y0/D9rhCMr/a6jA6AkD+7Kpc4Vfh6EegLuW0mmumgCAdB04t89/1O/w1cDnyilFU=
+  channel-secret: b6397fd9d63ad7e4dfaec95aaa755553
